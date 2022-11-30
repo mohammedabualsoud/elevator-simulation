@@ -248,8 +248,9 @@ export const BuildingView = () => {
                 <div>
                   <strong>Status: {item.status}</strong>
                 </div>
-                <Divider orientation="left">Pending Requests</Divider>
-
+                <Divider orientation="left">
+                  Pending Requests ({item.pendingRequests.length})
+                </Divider>
                 <div>
                   {Boolean(item.pendingRequests.length) && (
                     <Table
