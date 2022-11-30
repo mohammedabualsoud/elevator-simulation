@@ -37,6 +37,7 @@ export type EvaluatorParams = {
   proximity: number,
   direction: number,
   status: number,
+  requestQueue: number
 }
 
 interface IElevatorEvent {
@@ -127,6 +128,10 @@ export class Elevator {
   public getStatus(): any {
     return JSON.parse(JSON.stringify(this));
   }
+  public getPendingRequestsNumber(): number {
+    return this._queue.length;
+  }
+
   public toJSON() {
     const { _queue: pendingRequests, _interval, ...readProperties } = this;
     return { ...readProperties, status: statusMap[this.status], direction: directionMap[this.direction], pendingRequests };

@@ -6,6 +6,7 @@ const defaultParams: EvaluatorParams = {
     proximity: 10,
     direction: 200,
     status: 150,
+    requestQueue: 10,
 };
 
 
@@ -22,6 +23,9 @@ export class CustomEvaluator implements IEvaluator {
             switch (param) {
                 case 'proximity':
                     result += Math.abs(passengerFloor - e.floor) * wight;
+                    break;
+                case 'requestQueue':
+                    result += e.getPendingRequestsNumber() * wight;
                     break;
                 case 'direction':
 
