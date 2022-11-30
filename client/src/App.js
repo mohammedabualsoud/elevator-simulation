@@ -7,7 +7,7 @@ import { BuildingCreate } from "./Building/create";
 import { ROUTES } from "./constant";
 import { BuildingView } from "./Building/view";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 
 const items = [
   {
