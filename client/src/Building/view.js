@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import io from "socket.io-client";
 
 import {
+  BASE_URL,
   getBuilding,
   movePassenger,
   startElevators,
@@ -22,7 +24,6 @@ import {
 } from "antd";
 
 import { Loader } from "../component/Loader";
-import { useForm } from "antd/es/form/Form";
 
 const { Title } = Typography;
 
@@ -39,17 +40,35 @@ const columns = [
   },
 ];
 
+const socket = io(BASE_URL);
+
 export const BuildingView = () => {
   const [isFetching, setIsFetching] = useState(true);
   const [building, setBuilding] = useState({});
   const { id } = useParams();
-  const [form] = useForm();
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    socket.on("building:status_update", (updatedBuilding) => {
+      if (updatedBuilding) setBuilding(updatedBuilding);
+    });
+
+    return () => {
+      socket.off("building:status_update");
+    };
+  }, []);
+
+  const sendBuildingStatusUpdateAck = (buildingId) => {
+    socket.emit("building:fetch", buildingId);
+  };
+
   useEffect(() => {
     const fetchBuilding = async () => {
       setIsFetching(true);
       try {
         const { data } = await getBuilding(id);
         setBuilding(data);
+        sendBuildingStatusUpdateAck(id);
       } catch (error) {
       } finally {
         setIsFetching(false);

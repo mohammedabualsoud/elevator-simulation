@@ -4,7 +4,7 @@ import { Request, Response } from 'express'
 
 
 
-const _buildings: BuildingService[] = [];
+export const _buildings: BuildingService[] = [];
 
 export default class BuildingController {
 
